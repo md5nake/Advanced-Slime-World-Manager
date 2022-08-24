@@ -12,6 +12,7 @@ dependencies {
     implementation("com.flowpowered:flow-nbt:2.0.2")
 }
 
+
 tasks {
     assemble {
         dependsOn(reobfJar)

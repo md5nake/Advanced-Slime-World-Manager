@@ -38,7 +38,7 @@ public interface SlimePlugin {
      *
      * @deprecated see {@link #loadWorld(SlimeLoader, String, boolean, SlimePropertyMap)}
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     SlimeWorld loadWorld(SlimeLoader loader, String worldName, SlimeWorld.SlimeProperties properties) throws
             UnknownWorldException, IOException, CorruptedWorldException, NewerFormatException, WorldInUseException;
 
@@ -95,7 +95,7 @@ public interface SlimePlugin {
      *
      * @deprecated see {@link #createEmptyWorld(SlimeLoader, String, boolean, SlimePropertyMap)}
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     SlimeWorld createEmptyWorld(SlimeLoader loader, String worldName, SlimeWorld.SlimeProperties properties) throws WorldAlreadyExistsException, IOException;
 
     /**
