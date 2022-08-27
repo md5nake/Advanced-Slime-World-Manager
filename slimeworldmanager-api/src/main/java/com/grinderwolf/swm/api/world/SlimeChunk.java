@@ -1,20 +1,17 @@
 package com.grinderwolf.swm.api.world;
 
 import com.flowpowered.nbt.CompoundTag;
+import org.bukkit.HeightMap;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * In-memory representation of a SRF chunk.
  */
+@ApiStatus.Internal
 public interface SlimeChunk {
-
-    /**
-     * Returns the name of the world this chunk belongs to.
-     *
-     * @return The name of the world of this chunk.
-     */
-    String getWorldName();
 
     /**
      * Returns the X coordinate of the chunk.
@@ -37,27 +34,7 @@ public interface SlimeChunk {
      */
     SlimeChunkSection[] getSections();
 
-    int getMinSection();
-
-    int getMaxSection();
-
-    /**
-     * Returns the height maps of the chunk. If it's a pre 1.13 world,
-     * a {@link com.flowpowered.nbt.IntArrayTag} containing the height
-     * map will be stored inside here by the name of 'heightMap'.
-     *
-     * @return A {@link CompoundTag} containing all the height maps of the chunk.
-     */
-    CompoundTag getHeightMaps();
-
-    /**
-     * Returns all the biomes of the chunk. In case it's a pre 1.13 world,
-     * every <code>int</code> inside the array will contain two biomes,
-     * and should be converted into a <code>byte[]</code>.
-     *
-     * @return A <code>int[]</code> containing all the biomes of the chunk.
-     */
-    int[] getBiomes();
+    Map<HeightMap, long[]> getHeightmaps();
 
     /**
      * Returns all the tile entities of the chunk.
@@ -66,11 +43,4 @@ public interface SlimeChunk {
      */
     List<CompoundTag> getTileEntities();
 
-    /**
-     * Returns all the entities of the chunk.
-     *
-     * @return A {@link CompoundTag} containing all the entities of the chunk.
-     */
-    @Deprecated
-    List<CompoundTag> getEntities();
 }

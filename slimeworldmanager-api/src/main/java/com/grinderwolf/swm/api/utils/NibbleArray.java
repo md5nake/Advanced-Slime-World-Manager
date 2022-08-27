@@ -1,7 +1,5 @@
 package com.grinderwolf.swm.api.utils;
 
-import lombok.Getter;
-
 /**
  * Credits to Minikloon for this class.
  *
@@ -9,7 +7,6 @@ import lombok.Getter;
  */
 public class NibbleArray {
 
-    @Getter
     private final byte[] backing;
 
     public NibbleArray(int size) {
@@ -36,5 +33,9 @@ public class NibbleArray {
         } else {
             this.backing[halfIndex] = (byte) (previous & 0xF | nibble << 4);
         }
+    }
+
+    public byte[] getBacking() {
+        return backing;
     }
 }

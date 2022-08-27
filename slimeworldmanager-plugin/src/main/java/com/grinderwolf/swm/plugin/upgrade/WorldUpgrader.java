@@ -16,9 +16,6 @@ public class WorldUpgrader {
     private static final Map<Byte, Upgrade> upgrades = new HashMap<>();
 
     static {
-        upgrades.put((byte) 0x04, new v1_14WorldUpgrade());
-        // Todo we need a 1_14_WorldUpgrade class as well for 0x05
-        upgrades.put((byte) 0x06, new v1_16WorldUpgrade());
         upgrades.put((byte) 0x07, new v117WorldUpgrade());
         upgrades.put((byte) 0x08, new v118WorldUpgrade());
     }

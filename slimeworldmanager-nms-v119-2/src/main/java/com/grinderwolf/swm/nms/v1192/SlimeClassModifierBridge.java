@@ -1,52 +1,36 @@
-package com.grinderwolf.swm.nms.v1191;
+package com.grinderwolf.swm.nms.v1192;
 
 import com.grinderwolf.swm.clsm.CLSMBridge;
 import com.grinderwolf.swm.clsm.ClassModifier;
 import com.mojang.datafixers.util.Either;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ImposterProtoChunk;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.storage.EntityStorage;
 import net.minecraft.world.level.entity.ChunkEntities;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class CraftCLSMBridge implements CLSMBridge {
+public class SlimeClassModifierBridge implements CLSMBridge {
 
-    private final v1191SlimeNMS nmsInstance;
+    private final v1192SlimeNMS nmsInstance;
+
+    SlimeClassModifierBridge(v1192SlimeNMS nmsInstance) {
+        this.nmsInstance = nmsInstance;
+    }
 
     @Override
     public Object getChunk(Object worldObject, int x, int z) {
-        CustomWorldServer world = (CustomWorldServer) worldObject;
-        return Either.left(world.getImposterChunk(x, z));
+        SlimeServerLevel world = (SlimeServerLevel) worldObject;
+
+        return Either.left(world.getWorldLevelWrapper().getVanillaChunkAccess(x, z));
     }
 
     @Override
     public boolean saveChunk(Object world, Object chunkAccess) {
-        if (!(world instanceof CustomWorldServer)) {
+        if (!(world instanceof SlimeServerLevel)) {
             return false; // Returning false will just run the original saveChunk method
         }
 
-        if (!(chunkAccess instanceof ImposterProtoChunk || chunkAccess instanceof LevelChunk) || !((ChunkAccess) chunkAccess).isUnsaved()) {
-            // We're only storing fully-loaded chunks that need to be saved
-            return true;
-        }
-
-        LevelChunk chunk;
-
-        if (chunkAccess instanceof ImposterProtoChunk) {
-            chunk = ((ImposterProtoChunk) chunkAccess).getWrapped();
-        } else {
-            chunk = (LevelChunk) chunkAccess;
-        }
-
-        ((CustomWorldServer) world).saveChunk(chunk);
-        chunk.setUnsaved(false);
-
+        // Skip the individual chunk saving logic for chunks
         return true;
     }
 
@@ -57,8 +41,7 @@ public class CraftCLSMBridge implements CLSMBridge {
             return null;
         }
 
-
-        return ((CustomWorldServer) entityStorage.level).handleEntityLoad(entityStorage, (ChunkPos) chunkCoords);
+        return ((SlimeServerLevel) entityStorage.level).handleEntityLoad(entityStorage, (ChunkPos) chunkCoords);
     }
 
     @Override
@@ -68,7 +51,7 @@ public class CraftCLSMBridge implements CLSMBridge {
             return false;
         }
 
-        ((CustomWorldServer) entityStorage.level).handleEntityUnLoad(entityStorage, (ChunkEntities<Entity>) entityList);
+        ((SlimeServerLevel) entityStorage.level).handleEntityUnLoad(entityStorage, (ChunkEntities<Entity>) entityList);
         return true;
     }
 
@@ -80,7 +63,7 @@ public class CraftCLSMBridge implements CLSMBridge {
 
     @Override
     public boolean isCustomWorld(Object world) {
-        if (world instanceof CustomWorldServer) {
+        if (world instanceof SlimeServerLevel) {
             return true;
         } else if (world instanceof Level) {
             return false;
@@ -94,7 +77,7 @@ public class CraftCLSMBridge implements CLSMBridge {
         return nmsInstance.injectDefaultWorlds();
     }
 
-    static void initialize(v1191SlimeNMS instance) {
-        ClassModifier.setLoader(new CraftCLSMBridge(instance));
+    static void initialize(v1192SlimeNMS instance) {
+        ClassModifier.setLoader(new SlimeClassModifierBridge(instance));
     }
 }

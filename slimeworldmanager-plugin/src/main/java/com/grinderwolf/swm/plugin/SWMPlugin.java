@@ -12,7 +12,6 @@ import com.grinderwolf.swm.api.world.properties.SlimePropertyMap;
 import com.grinderwolf.swm.nms.SlimeNMS;
 import com.grinderwolf.swm.nms.v1182.v1182SlimeNMS;
 import com.grinderwolf.swm.nms.v119.v119SlimeNMS;
-import com.grinderwolf.swm.nms.v1191.v1191SlimeNMS;
 import com.grinderwolf.swm.nms.v1192.v1192SlimeNMS;
 import com.grinderwolf.swm.nms.world.SlimeLoadedWorld;
 import com.grinderwolf.swm.plugin.commands.CommandManager;
@@ -184,7 +183,6 @@ public class SWMPlugin extends JavaPlugin implements SlimePlugin, Listener {
         return switch (dataVersion) {
             case 2975 -> new v1182SlimeNMS(isPaperMC);
             case 3105 -> new v119SlimeNMS(isPaperMC);
-            case 3117 -> new v1191SlimeNMS(isPaperMC);
             case 3120 -> new v1192SlimeNMS(isPaperMC);
             default -> throw new InvalidVersionException("" + dataVersion);
         };
@@ -242,14 +240,6 @@ public class SWMPlugin extends JavaPlugin implements SlimePlugin, Listener {
     }
 
     @Override
-    public SlimeWorld loadWorld(SlimeLoader loader, String worldName, SlimeWorld.SlimeProperties properties) throws UnknownWorldException,
-            IOException, CorruptedWorldException, NewerFormatException, WorldInUseException {
-        Objects.requireNonNull(properties, "Properties cannot be null");
-
-        return loadWorld(loader, worldName, properties.isReadOnly(), propertiesToMap(properties));
-    }
-
-    @Override
     public SlimeWorld loadWorld(SlimeLoader loader, String worldName, boolean readOnly, SlimePropertyMap propertyMap) throws UnknownWorldException, IOException,
             CorruptedWorldException, NewerFormatException, WorldInUseException {
         Objects.requireNonNull(loader, "Loader cannot be null");
@@ -275,7 +265,7 @@ public class SWMPlugin extends JavaPlugin implements SlimePlugin, Listener {
                 loader.unlockWorld(worldName);
             }
 
-            throw ex;
+            throw new CorruptedWorldException(worldName, ex);
         }
 
         Logging.info("World " + worldName + " loaded in " + (System.currentTimeMillis() - start) + "ms.");

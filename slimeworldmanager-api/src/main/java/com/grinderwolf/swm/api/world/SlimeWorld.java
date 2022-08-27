@@ -4,13 +4,8 @@ import com.flowpowered.nbt.CompoundTag;
 import com.grinderwolf.swm.api.exceptions.WorldAlreadyExistsException;
 import com.grinderwolf.swm.api.loaders.SlimeLoader;
 import com.grinderwolf.swm.api.world.properties.SlimePropertyMap;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.experimental.Accessors;
-import lombok.experimental.Wither;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -38,10 +33,9 @@ public interface SlimeWorld {
      *
      * @param x X coordinate.
      * @param z Z coordinate.
-     *
      * @return The {@link SlimeChunk} that belongs to those coordinates.
      */
-     SlimeChunk getChunk(int x, int z);
+    SlimeChunk getChunk(int x, int z);
 
     /**
      * Returns a {@link Map} with every {@link SlimeChunk} that is
@@ -49,7 +43,7 @@ public interface SlimeWorld {
      *
      * @return A {@link Map} containing every loaded chunk.
      */
-     Map<Long, SlimeChunk> getChunks();
+    Map<Long, SlimeChunk> getChunks();
 
     /**
      * Returns the extra data of the world. Inside this {@link CompoundTag}
@@ -59,24 +53,6 @@ public interface SlimeWorld {
      * @return A {@link CompoundTag} containing the extra data of the world.
      */
     CompoundTag getExtraData();
-
-    /**
-     * Returns a {@link Collection} with every world map, serialized
-     * in a {@link CompoundTag} object.
-     *
-     * @return A {@link Collection} containing every world map.
-     */
-    Collection<CompoundTag> getWorldMaps();
-
-    /**
-     * Returns the properties of the world. These properties are automatically
-     * kept up-to-date when the world is loaded and its properties are updated.
-     *
-     * @return A {@link SlimeProperties} object with all the current properties of the world.
-     * @deprecated see {@link #getPropertyMap()}.
-     */
-    @Deprecated
-    SlimeProperties getProperties();
 
     /**
      * Returns the property map.
@@ -97,9 +73,7 @@ public interface SlimeWorld {
      * stored, as the <code>readOnly</code> property will be set to true.
      *
      * @param worldName The name of the cloned world.
-     *
      * @return The clone of the world.
-     *
      * @throws IllegalArgumentException if the name of the world is the same as the current one or is <code>null</code>.
      */
     SlimeWorld clone(String worldName);
@@ -109,13 +83,11 @@ public interface SlimeWorld {
      * automatically stored inside the provided data source.
      *
      * @param worldName The name of the cloned world.
-     * @param loader The {@link SlimeLoader} used to store the world or <code>null</code> if the world is temporary.
-     *
+     * @param loader    The {@link SlimeLoader} used to store the world or <code>null</code> if the world is temporary.
      * @return The clone of the world.
-     *
-     * @throws IllegalArgumentException if the name of the world is the same as the current one or is <code>null</code>.
+     * @throws IllegalArgumentException    if the name of the world is the same as the current one or is <code>null</code>.
      * @throws WorldAlreadyExistsException if there's already a world with the same name inside the provided data source.
-     * @throws IOException if the world could not be stored.
+     * @throws IOException                 if the world could not be stored.
      */
     SlimeWorld clone(String worldName, SlimeLoader loader) throws WorldAlreadyExistsException, IOException;
 
@@ -124,14 +96,12 @@ public interface SlimeWorld {
      * automatically stored inside the provided data source.
      *
      * @param worldName The name of the cloned world.
-     * @param loader The {@link SlimeLoader} used to store the world or <code>null</code> if the world is temporary.
-     * @param lock whether or not SWM should lock the world. If false, SWM will not let you load this world for security reasons.
-     *
+     * @param loader    The {@link SlimeLoader} used to store the world or <code>null</code> if the world is temporary.
+     * @param lock      whether or not SWM should lock the world. If false, SWM will not let you load this world for security reasons.
      * @return The clone of the world.
-     *
-     * @throws IllegalArgumentException if the name of the world is the same as the current one or is <code>null</code>.
+     * @throws IllegalArgumentException    if the name of the world is the same as the current one or is <code>null</code>.
      * @throws WorldAlreadyExistsException if there's already a world with the same name inside the provided data source.
-     * @throws IOException if the world could not be stored.
+     * @throws IOException                 if the world could not be stored.
      */
     SlimeWorld clone(String worldName, SlimeLoader loader, boolean lock) throws WorldAlreadyExistsException, IOException;
 
@@ -143,37 +113,8 @@ public interface SlimeWorld {
      */
     boolean isLocked();
 
-    /**
-     * All the currently-available properties of the world.
-     *
-     * @deprecated see {@link SlimePropertyMap}
-     */
-    @Getter
-    @Builder(toBuilder = true)
-    @Deprecated
-    class SlimeProperties {
+    int getMinSection();
 
-        private final double spawnX;
-        @Builder.Default
-        private final double spawnY = 255;
-        private final double spawnZ;
+    int getMaxSection();
 
-        private final int difficulty;
-
-        @Accessors(fluent = true)
-        @Builder.Default
-        private final boolean allowMonsters = true;
-        @Accessors(fluent = true)
-        @Builder.Default
-        private final boolean allowAnimals = true;
-
-        @Wither
-        private final boolean readOnly;
-
-        @Builder.Default
-        private final boolean pvp = true;
-
-        @Builder.Default
-        private final String environment = "NORMAL";
-    }
 }

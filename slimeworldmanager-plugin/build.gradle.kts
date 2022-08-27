@@ -8,7 +8,6 @@ dependencies {
     implementation(project(":slimeworldmanager-nms-common"))
     implementation(project(":slimeworldmanager-nms-v118-2", "reobf"))
     implementation(project(":slimeworldmanager-nms-v119", "reobf"))
-    implementation(project(":slimeworldmanager-nms-v119-1", "reobf"))
     implementation(project(":slimeworldmanager-nms-v119-2", "reobf"))
     implementation(project(":slimeworldmanager-classmodifierapi"))
 
@@ -21,7 +20,7 @@ dependencies {
     implementation("org.bstats:bstats-bukkit:3.0.0")
     implementation("commons-io:commons-io:2.11.0")
 
-    compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
 }
 
 tasks {
@@ -43,6 +42,7 @@ tasks {
 
     runServer {
         minecraftVersion("1.19.2")
+        jvmArgs("-javaagent:" + project(":slimeworldmanager-classmodifier").tasks.named<AbstractArchiveTask>("shadowJar").flatMap { shadow -> shadow.archiveFile }.get().asFile.toPath())
     }
 }
 

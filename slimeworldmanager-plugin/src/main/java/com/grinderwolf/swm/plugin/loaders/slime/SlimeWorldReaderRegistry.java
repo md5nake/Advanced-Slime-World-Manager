@@ -6,6 +6,7 @@ import com.grinderwolf.swm.api.loaders.SlimeLoader;
 import com.grinderwolf.swm.api.utils.SlimeFormat;
 import com.grinderwolf.swm.api.world.properties.SlimePropertyMap;
 import com.grinderwolf.swm.nms.world.SlimeLoadedWorld;
+import com.grinderwolf.swm.plugin.loaders.slime.impl.v10SlimeWorldFormat;
 import com.grinderwolf.swm.plugin.loaders.slime.impl.v1_9SlimeWorldFormat;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +22,7 @@ public class SlimeWorldReaderRegistry {
 
     static {
         register(new v1_9SlimeWorldFormat(), 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        register(new v10SlimeWorldFormat(), 10);
     }
 
 

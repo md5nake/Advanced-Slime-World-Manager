@@ -9,18 +9,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
-@Getter
-@AllArgsConstructor
 public class CraftSlimeChunkSection implements SlimeChunkSection {
 
-    // Post 1.13 block data
-    private final ListTag<CompoundTag> palette;
-    private final long[] blockStates;
-
     // Post 1.17 block data
-    @Setter
     private CompoundTag blockStatesTag;
-    @Setter
     private CompoundTag biomeTag;
 
     @Nullable
@@ -28,13 +20,32 @@ public class CraftSlimeChunkSection implements SlimeChunkSection {
     @Nullable
     private final NibbleArray skyLight;
 
-    @Override
-    public byte[] getBlocks() {
-        return null;
+    public CraftSlimeChunkSection(CompoundTag blockStatesTag, CompoundTag biomeTag, @Nullable NibbleArray blockLight, @Nullable NibbleArray skyLight) {
+        this.blockStatesTag = blockStatesTag;
+        this.biomeTag = biomeTag;
+        this.blockLight = blockLight;
+        this.skyLight = skyLight;
     }
 
     @Override
-    public NibbleArray getData() {
-        return null;
+    public CompoundTag getBlockStatesTag() {
+        return blockStatesTag;
+    }
+
+    @Override
+    public CompoundTag getBiomeTag() {
+        return biomeTag;
+    }
+
+    @Nullable
+    @Override
+    public NibbleArray getBlockLight() {
+        return blockLight;
+    }
+
+    @Nullable
+    @Override
+    public NibbleArray getSkyLight() {
+        return skyLight;
     }
 }

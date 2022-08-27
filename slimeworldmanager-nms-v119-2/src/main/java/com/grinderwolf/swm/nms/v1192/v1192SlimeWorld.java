@@ -24,7 +24,7 @@ public class v1192SlimeWorld extends AbstractSlimeNMSWorld {
 
     private static final InternalPlugin INTERNAL_PLUGIN = new InternalPlugin();
 
-    private CustomWorldServer handle;
+    private SlimeServerLevel handle;
 
     public v1192SlimeWorld(SlimeNMS nms, byte version, SlimeLoader loader, String name,
                            Long2ObjectOpenHashMap<SlimeChunk> chunks, CompoundTag extraData,
@@ -34,8 +34,12 @@ public class v1192SlimeWorld extends AbstractSlimeNMSWorld {
     }
 
 
-    public void setHandle(CustomWorldServer handle) {
+    public void setHandle(SlimeServerLevel handle) {
         this.handle = handle;
+    }
+
+    public SlimeServerLevel getHandle() {
+        return handle;
     }
 
     public Iterable<Entity> getLoadedEntities() {
@@ -176,6 +180,7 @@ public class v1192SlimeWorld extends AbstractSlimeNMSWorld {
 
             return future;
         }
+
     }
 
     @Override

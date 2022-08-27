@@ -19,10 +19,7 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.chunk.PalettedContainer;
-import net.minecraft.world.level.chunk.PalettedContainerRO;
+import net.minecraft.world.level.chunk.*;
 import net.minecraft.world.level.chunk.storage.ChunkSerializer;
 import net.minecraft.world.level.entity.PersistentEntitySectionManager;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -79,8 +76,6 @@ public class NMSSlimeChunk implements SlimeChunk {
             // Sky light Nibble Array
             NibbleArray skyLightArray = Converter.convertArray(lightEngine.getLayerListener(LightLayer.SKY).getDataLayerData(SectionPos.of(chunk.getPos(), sectionId)));
 
-            // Tile/Entity Data
-
             // Block Data
             Tag blockStateData = ChunkSerializer.BLOCK_STATE_CODEC.encodeStart(NbtOps.INSTANCE, section.getStates()).getOrThrow(false, System.err::println); // todo error handling
             Tag biomeData = codec.encodeStart(NbtOps.INSTANCE, section.getBiomes()).getOrThrow(false, System.err::println); // todo error handling
@@ -88,20 +83,10 @@ public class NMSSlimeChunk implements SlimeChunk {
             CompoundTag blockStateTag = (CompoundTag) Converter.convertTag("", blockStateData);
             CompoundTag biomeTag = (CompoundTag) Converter.convertTag("", biomeData);
 
-            sections[sectionId] = new CraftSlimeChunkSection(null, null, blockStateTag, biomeTag, blockLightArray, skyLightArray);
+            sections[sectionId] = new CraftSlimeChunkSection(blockStateTag, biomeTag, blockLightArray, skyLightArray);
         }
 
         return sections;
-    }
-
-    @Override
-    public int getMinSection() {
-        return this.chunk.getMinSection();
-    }
-
-    @Override
-    public int getMaxSection() {
-        return this.chunk.getMaxSection();
     }
 
     @Override
@@ -121,11 +106,6 @@ public class NMSSlimeChunk implements SlimeChunk {
         }
 
         return new CompoundTag("", heightMaps);
-    }
-
-    @Override
-    public int[] getBiomes() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
