@@ -1,4 +1,9 @@
-# Advanced Slime World Manager [![Build Status](https://travis-ci.org/Paul19988/Advanced-Slime-World-Manager.svg?branch=feature%2F1.16)](https://travis-ci.org/Paul19988/Advanced-Slime-World-Manager)
+# We're Moving!
+
+See https://github.com/InfernalSuite/AdvancedSlimePaper for more updates
+
+
+## Advanced Slime World Manager [![Build Status](https://travis-ci.org/Paul19988/Advanced-Slime-World-Manager.svg?branch=feature%2F1.16)](https://travis-ci.org/Paul19988/Advanced-Slime-World-Manager)
 
 [<img src="https://discordapp.com/assets/e4923594e694a21542a489471ecffa50.svg" alt="" height="55" />](https://discord.gg/YevvsMa)
 
